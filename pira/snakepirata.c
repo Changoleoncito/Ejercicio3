@@ -48,14 +48,19 @@ void draw_food() {
 void place_food() {
     for (int i = 0; i < foodCount; i++) {
         if (foodX[i] == -1 && foodY[i] == -1) {
-            foodX[i] = 1 + rand() % (COLS - 2);
-            foodY[i] = 1 + rand() % (ROWS - 2);
+            int newX, newY;
+            do {
+                newX = 1 + rand() % (COLS - 2);
+                newY = 1 + rand() % (ROWS - 2);
+            } while (board[newY * COLS + newX] != ' '); // Ensure food does not appear on the snake
+            foodX[i] = newX;
+            foodY[i] = newY;
         }
     }
 }
 
 void clear_screen() {
-    system("clear"); // Use "clear" for Linux/Mac, "cls" for Windows
+    printf("\033[H\033[J"); // Clear screen using ANSI escape codes
 }
 
 void print_board() {
@@ -111,11 +116,11 @@ void check_food() {
             if (snakeLength > SNAKE_MAX_LEN) {
                 snakeLength = SNAKE_MAX_LEN;
             }
-            foodX[i] = -1; // Remove the food
+            foodX[i] = -1; // Mark food as eaten
             foodY[i] = -1;
-            place_food(); // Place a new food
         }
     }
+    place_food(); // Ensure new food is placed after eating
 }
 
 void check_game_over() {
@@ -137,6 +142,10 @@ int main() {
         snakeX[i] = -1;
         snakeY[i] = -1;
     }
+    for (int i = 0; i < foodCount; i++) {
+        foodX[i] = -1;
+        foodY[i] = -1;
+    }
     place_food();
 
     set_nonblocking_mode(1); // Habilitar modo no bloqueante
@@ -144,12 +153,12 @@ int main() {
     while (!gameOver) {
         fill_board();
         draw_food();
-        update_snake_position();
         draw_snake();
         clear_screen();
         printf("Score: %d\n", score);
         print_board();
         read_keyboard();
+        update_snake_position();
         check_food();
         check_game_over();
         usleep(200000); // Small delay

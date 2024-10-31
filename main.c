@@ -2,6 +2,9 @@
 #include "snake.h"
 
 int main() {
-    loadProgram();
+    snake serpiente;
+    serpiente.x = 12;
+    serpiente.y = 20;
+    dibujarTablero(serpiente);
     return 0;
 }
