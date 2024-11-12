@@ -1,10 +1,18 @@
 #include <stdio.h>
+#include <unistd.h>
 #include "snake.h"
 
 int main() {
-    snake serpiente;
-    serpiente.x = 12;
-    serpiente.y = 20;
-    dibujarTablero(serpiente);
+    Serpiente serpiente = {{{12, 20}}, 1, 'd'};
+    
+    while (1) {
+        dibujarTablero(&serpiente);
+        usleep(300000); // Ajustar la velocidad del juego
+        moverSerpiente(&serpiente);
+        system("clear"); // Limpiar la pantalla
+    }
+
     return 0;
 }
+
+
