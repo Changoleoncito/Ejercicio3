@@ -19,6 +19,6 @@ typedef struct {
 void loadProgram();
 void dibujarTablero(Serpiente* serpiente);
 void moverSerpiente(Serpiente* serpiente);
-void actualizarTablero(char tablero[LARGO][ALTO], Serpiente* serpiente);
+void actualizarTablero(char tablero[ALTO][LARGO], Serpiente* serpiente);
 
 #endif

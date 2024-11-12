@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include "snake.h"
 
-char tablero[LARGO][ALTO];
+char tablero[ALTO][LARGO]; // Tablero con dimensiones correctas
 
 void loadProgram() {
     system("stty raw");
@@ -37,7 +37,8 @@ void moverSerpiente(Serpiente* serpiente) {
     serpiente->cuerpo[0] = nuevaCabeza;
 }
 
-void actualizarTablero(char tablero[LARGO][ALTO], Serpiente* serpiente) {
+void actualizarTablero(char tablero[ALTO][LARGO], Serpiente* serpiente) {
+    // Inicializa el tablero con los bordes y el espacio vacío
     for(int x = 0; x < ALTO; x++) {
         for(int y = 0; y < LARGO; y++) {
             if (x == 0 || y == 0 || x == ALTO - 1 || y == LARGO - 1) {
@@ -47,8 +48,14 @@ void actualizarTablero(char tablero[LARGO][ALTO], Serpiente* serpiente) {
             }
         }
     }
+    // Coloca la serpiente en el tablero
     for (int i = 0; i < serpiente->tamano; i++) {
-        tablero[serpiente->cuerpo[i].x][serpiente->cuerpo[i].y] = 'O';
+        int x = serpiente->cuerpo[i].x;
+        int y = serpiente->cuerpo[i].y;
+
+        // Asegurarse de que las coordenadas estén dentro de los límites
+        if (x > 0 && x < ALTO - 1 && y > 0 && y < LARGO - 1) {
+            tablero[x][y] = 'O';
+        }
     }
 }
-
